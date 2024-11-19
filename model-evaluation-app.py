@@ -52,7 +52,7 @@ def main():
     task = st.radio("평가할 모델 유형을 선택하세요:", ["분류", "생성/요약"])
     
     # 파일 업로드
-    uploaded_file = st.file_uploader("테스트 데이터 파일을 업로드하세요 (Excel)", type=['xlsx, csv'])
+    uploaded_file = st.file_uploader("테스트 데이터 파일을 업로드하세요 (Excel)", type=['xlsx'])
     
     if uploaded_file is not None:
         df = pd.read_excel(uploaded_file)
