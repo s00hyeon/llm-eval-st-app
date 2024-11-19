@@ -46,13 +46,13 @@ def calculate_rouge_scores(reference_texts, generated_texts):
     return pd.DataFrame(rouge_results)
 
 def main():
-    st.title("모델 성능 평가 도구")
+    st.title("LLM Evaluation (Korean)")
     
     # Task 선택
-    task = st.radio("평가할 모델 유형을 선택하세요:", ["분류 모델", "생성/요약 모델"])
+    task = st.radio("평가할 모델 유형을 선택하세요:", ["분류", "생성/요약"])
     
     # 파일 업로드
-    uploaded_file = st.file_uploader("테스트 데이터 파일을 업로드하세요 (Excel)", type=['xlsx'])
+    uploaded_file = st.file_uploader("테스트 데이터 파일을 업로드하세요 (Excel)", type=['xlsx, csv'])
     
     if uploaded_file is not None:
         df = pd.read_excel(uploaded_file)
@@ -98,10 +98,12 @@ def main():
                 with pd.ExcelWriter(output, engine='openpyxl') as writer:
                     results_df.to_excel(writer, sheet_name='성능측정결과', index=False)
                 
+                fn_result = f"{uploaded_file.name.split('.')[0]}-cls-result.xlsx"
+                
                 st.download_button(
                     label="평가 결과 다운로드",
                     data=output.getvalue(),
-                    file_name="classification_results.xlsx",
+                    file_name=fn_result,
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
                 
@@ -143,11 +145,13 @@ def main():
                 with pd.ExcelWriter(output, engine='openpyxl') as writer:
                     rouge_df.to_excel(writer, sheet_name='문장별_성능측정결과', index=False)
                     pd.DataFrame([avg_scores]).to_excel(writer, sheet_name='평균_성능측정결과')
+                    
+                fn_result = f"{uploaded_file.name.split('.')[0]}-rouge-result.xlsx"
                 
                 st.download_button(
                     label="평가 결과 다운로드",
                     data=output.getvalue(),
-                    file_name="generation_results.xlsx",
+                    file_name=fn_result,
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 )
 
