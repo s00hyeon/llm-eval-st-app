@@ -61,7 +61,7 @@ def main():
         
         columns = df.columns.tolist()
         
-        if task == "분류 모델":
+        if task == "분류":
             st.subheader("분류 모델 평가")
             
             col1, col2 = st.columns(2)
