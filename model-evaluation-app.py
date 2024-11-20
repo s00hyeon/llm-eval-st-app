@@ -81,8 +81,8 @@ def main():
                 results = []
                 for actual_col, predicted_col in zip(actual_cols, predicted_cols):
                     metrics = calculate_classification_metrics(
-                        df[actual_col], 
-                        df[predicted_col]
+                        df[actual_col].astype(str), 
+                        df[predicted_col].astype(str)
                     )
                     results.append({
                         'Level': f"{actual_col} vs {predicted_col}",
